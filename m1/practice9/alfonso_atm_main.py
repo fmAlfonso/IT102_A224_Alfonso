@@ -53,13 +53,22 @@ elif choice == "Deposit":
             st.error("Deposit failed.")
 
 elif choice == "Withdraw":
-    amount = st.number_input("Enter withdrawal amount", min_value=0.00, step=100.00)
+    st.subheader("Withdraw Money")
+    st.metric("Available Balance", f"₱{account.check_balance():,.2f}")
+    amount = st.number_input(
+        "Enter withdrawal amount",
+        min_value=0.00,
+        step=100.00,
+        format="%.2f",
+    )
     if st.button("Withdraw Money"):
         if amount <= 0:
-            st.warning("Enter an amount greater than zero.")
+            st.error("Invalid amount. Please enter a value greater than zero.")
+        elif amount > account.check_balance():
+            st.error("Insufficient balance for this withdrawal.")
         elif withdraw_money(account, amount):
             st.success(f"Successfully withdrew ₱{amount:,.2f}.")
-            st.metric("New Balance", f"₱{account.check_balance():,.2f}")
+            st.metric("Updated Balance", f"₱{account.check_balance():,.2f}")
         else:
             st.error("Withdrawal failed. Check your balance.")
 
