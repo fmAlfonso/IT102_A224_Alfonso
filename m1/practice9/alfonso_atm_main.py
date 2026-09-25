@@ -76,7 +76,32 @@ elif choice == "View History":
     st.subheader("Transaction History")
     history = view_history()
     if history:
-        st.text_area("History", history, height=300)
+        transactions = []
+        current_transaction = {}
+
+        for line in history.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+
+            if line.startswith("Timestamp:"):
+                if current_transaction:
+                    transactions.append(current_transaction)
+                current_transaction = {"Timestamp": line.split(":", 1)[1].strip()}
+            elif line.startswith("Account:"):
+                current_transaction["Account"] = line.split(":", 1)[1].strip()
+            elif line.startswith("Transaction:"):
+                current_transaction["Transaction"] = line.split(":", 1)[1].strip()
+            elif line.startswith("Amount:"):
+                current_transaction["Amount"] = line.split(":", 1)[1].strip()
+
+        if current_transaction:
+            transactions.append(current_transaction)
+
+        if transactions:
+            st.table(transactions)
+        else:
+            st.info("No transaction history available.")
     else:
         st.info("No transaction history available.")
 
