@@ -1,5 +1,5 @@
 from datetime import datetime
-def deposit(account, amount):
+def deposit_money(account, amount):
     if amount <= 0:
         return False
     success = account.deposit(amount)

@@ -1,5 +1,5 @@
 from datetime import datetime
-def withdraw(account, amount):
+def withdraw_money(account, amount):
     if amount <= 0:
         return False
     success = account.withdraw(amount)
