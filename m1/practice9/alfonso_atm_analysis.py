@@ -30,7 +30,8 @@ def analyze_transactions():
         elif line.startswith("Transaction:"):
             current["transaction"] = line.split(":", 1)[1].strip()
         elif line.startswith("Amount:"):
-            current["amount"] = float(line.split(":", 1)[1].strip())
+            amount_text = line.split(":", 1)[1].strip()
+            current["amount"] = float(amount_text.replace("₱", "").replace(",", ""))
 
         if all(key in current for key in ("timestamp", "account", "transaction", "amount")):
             transactions.append(current.copy())
