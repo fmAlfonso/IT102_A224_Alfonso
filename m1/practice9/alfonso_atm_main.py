@@ -7,7 +7,10 @@ from alfonso_atm_withdraw import withdraw_money
 from alfonso_atm_history import view_history
 from alfonso_atm_analysis import analyze_transactions
 
-account = Account("Juan Dela Cruz", 10000.00)
+if "account" not in st.session_state:
+    st.session_state.account = Account("Juan Dela Cruz", 10000.00)
+
+account = st.session_state.account
 
 st.set_page_config(page_title="ATM App", page_icon="🏧", layout="wide")
 
@@ -33,13 +36,19 @@ if choice == "Check Balance":
     st.metric(label="Available Balance", value=f"₱{balance:,.2f}")
 
 elif choice == "Deposit":
-    amount = st.number_input("Enter deposit amount", min_value=0.00, step=100.00)
+    st.subheader("Deposit Money")
+    amount = st.number_input(
+        "Enter deposit amount",
+        min_value=0.00,
+        step=100.00,
+        format="%.2f",
+    )
     if st.button("Deposit Money"):
         if amount <= 0:
-            st.warning("Enter an amount greater than zero.")
+            st.error("Invalid amount. Please enter a value greater than zero.")
         elif deposit_money(account, amount):
             st.success(f"Successfully deposited ₱{amount:,.2f}.")
-            st.metric("New Balance", f"₱{account.check_balance():,.2f}")
+            st.metric("Updated Balance", f"₱{account.check_balance():,.2f}")
         else:
             st.error("Deposit failed.")
 
@@ -66,3 +75,16 @@ elif choice == "Analyze Transactions":
     st.subheader("Transaction Analysis")
     result = analyze_transactions()
     st.json(result)
+
+if False:
+    """
+    ######### Learning Signature ######### 
+    Programmed by: Favio Maximo Alfonso
+    Date Submitted: September 25, 2026
+
+    Program Description: This module handles ATM operations and analysis.
+    Reflection: I learned how to use steamlit.
+
+    AI Usage
+    [ ] No AI Assistance – Completed independently without AI.
+    """

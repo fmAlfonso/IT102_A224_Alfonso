@@ -7,16 +7,20 @@ class Account:
     def check_balance(self):
         return self._balance
 
-    def deposit(self,amount):
+    def deposit(self, amount):
         if amount > 0:
             self._balance += amount
             return True
         return False
-    def withdrawal(self,amount):
+
+    def withdrawal(self, amount):
         if amount > 0 and amount <= self._balance:
             self._balance -= amount
             return True
         return False
+
+    def withdraw(self, amount):
+        return self.withdrawal(amount)
 
 """
 ######### Learning Signature ######### 

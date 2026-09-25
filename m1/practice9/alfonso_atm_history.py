@@ -1,6 +1,6 @@
 def view_history():
     try:
-        with open("transaction.txt", "r") as file:
+        with open("transactions.txt", "r") as file:
             lines = file.read()
             return lines
     except FileNotFoundError:
