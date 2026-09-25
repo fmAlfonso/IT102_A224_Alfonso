@@ -108,7 +108,34 @@ elif choice == "View History":
 elif choice == "Analyze Transactions":
     st.subheader("Transaction Analysis")
     result = analyze_transactions()
-    st.json(result)
+
+    st.write("### 1. Transaction Summary")
+    summary_columns = st.columns(3)
+    summary_columns[0].metric("Total Transactions", result["total_transactions"])
+    summary_columns[1].metric("Deposits", result["deposits"])
+    summary_columns[2].metric("Withdrawals", result["withdrawals"])
+
+    st.divider()
+    st.write("### 2. Transaction Amount Analysis")
+    amount_columns = st.columns(3)
+    amount_columns[0].metric(
+        "Total Deposited", f"₱{result['total_deposited']:,.2f}"
+    )
+    amount_columns[1].metric(
+        "Total Withdrawn", f"₱{result['total_withdrawn']:,.2f}"
+    )
+    amount_columns[2].metric(
+        "Average Transaction", f"₱{result['average_transaction']:,.2f}"
+    )
+
+    st.divider()
+    st.write("### 3. Account Activity Analysis")
+    activity_columns = st.columns(3)
+    activity_columns[0].metric("Latest Transaction", result["latest_transaction"])
+    activity_columns[1].metric(
+        "Largest Transaction", f"₱{result['largest_transaction']:,.2f}"
+    )
+    activity_columns[2].metric("Latest Activity", result["latest_timestamp"])
 
 if False:
     """
